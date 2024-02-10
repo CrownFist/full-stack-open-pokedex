@@ -1,34 +1,29 @@
 module.exports = {
   env: {
     browser: true,
-    es2021: true,
+    es6: true,
+    'jest/globals': true,
     node: true,
   },
-  overrides: [
-    {
-      env: {
-        node: true,
-      },
-      files: ['.eslintrc.{js,cjs}'],
-      parserOptions: {
-        sourceType: 'script',
-      },
-    },
-  ],
+  extends: ['eslint:recommended', 'plugin:react/recommended'],
   parserOptions: {
-    ecmaVersion: 'latest',
+    ecmaFeatures: {
+      jsx: true,
+    },
+    ecmaVersion: 2018,
     sourceType: 'module',
   },
-  plugins: ['@stylistic/js'],
-  extends: 'eslint:recommended',
+  plugins: ['react', 'jest'],
   rules: {
-    '@stylistic/js/indent': ['error', 2],
-    '@stylistic/js/linebreak-style': ['error', 'unix'],
-    '@stylistic/js/quotes': ['error', 'single'],
-    '@stylistic/js/semi': ['error', 'never'],
+    indent: ['error', 2],
+    'linebreak-style': ['error', 'windows'],
+    quotes: ['error', 'single'],
+    semi: ['error', 'never'],
     eqeqeq: 'error',
     'no-trailing-spaces': 'error',
     'object-curly-spacing': ['error', 'always'],
     'arrow-spacing': ['error', { before: true, after: true }],
+    'no-console': 'error',
+    'react/prop-types': 0,
   },
 }
