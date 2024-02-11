@@ -16,8 +16,6 @@ describe('Pokedex', function () {
     cy.contains('arbok').click()
     cy.contains('unnerve')
     cy.contains('Home').click()
-    cy.contains(
-      'Pokémon and Pokémon character names are trademarks of Nintendo.'
-    )
+    cy.contains('metapod')
   })
 })
