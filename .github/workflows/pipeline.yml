@@ -1,4 +1,4 @@
-name: Deployment pipeline
+name: CI/CD pipeline
 
 on:
   push:
@@ -9,7 +9,8 @@ on:
     types: [opened, synchronize]
 
 jobs:
-  simple_deployment_pipeline:
+  simple_ci_pipeline:
+    name: Simple CI
     runs-on: ubuntu-20.04
     steps:
       - uses: actions/checkout@v4
@@ -30,3 +31,14 @@ jobs:
           command: npm run test:e2e
           start: npm run start-prod
           wait-on: http://localhost:5000
+  deploy:
+    name: Fly Deploy
+    if: ${{ github.event_name == 'push' }}
+    runs-on: ubuntu-latest
+    concurrency: deploy-group # optional: ensure only one action runs at a time
+    steps:
+      - uses: actions/checkout@v3
+      - uses: superfly/flyctl-actions/setup-flyctl@master
+      - run: flyctl deploy --remote-only
+        env:
+          FLY_API_TOKEN: ${{ secrets.FLY_API_TOKEN }}
