@@ -46,6 +46,7 @@ jobs:
   tag_release:
     name: Tag release
     needs: [simple_ci_pipeline]
+    if: ${{ github.event_name == 'push' }}
     runs-on: ubuntu-20.04
     permissions:
       contents: write
@@ -58,4 +59,3 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           DEFAULT_BUMP: patch
-          DRY_RUN: true
