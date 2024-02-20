@@ -34,7 +34,7 @@ jobs:
   deploy:
     needs: [simple_ci_pipeline]
     name: Fly Deploy
-    if: ${{ github.event_name == 'push' && !contains(github.event.head_commit.message, '#skip')}}
+    if: ${{ github.event_name == 'push' && !contains(join(github.event.commits.*.message, ' '), '#skip')}}
     runs-on: ubuntu-latest
     concurrency: deploy-group # optional: ensure only one action runs at a time
     steps:
@@ -46,7 +46,7 @@ jobs:
   tag_release:
     name: Tag release
     needs: [simple_ci_pipeline]
-    if: ${{ github.event_name == 'push' && !contains(github.event.head_commit.message, '#skip') }}
+    if: ${{ github.event_name == 'push' && !contains(join(github.event.commits.*.message, ' '), '#skip') }}
     runs-on: ubuntu-20.04
     permissions:
       contents: write
@@ -75,3 +75,7 @@ jobs:
         env:
           COMMIT_MESSAGES: ${{ toJson(github.event.commits.*.message) }}
         run: echo "$COMMIT_MESSAGES"
+      - name: joined commit messages
+        env:
+          JOINED_COMMITS: ${{ join(github.event.commits.*.message, ' ') }}
+        run: echo "$JOINED_COMMITS"
