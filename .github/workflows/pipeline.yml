@@ -37,7 +37,7 @@ jobs:
         with:
           username: ActionCat
           color: '#77fc03'
-          avatarUrl: https://github.githubassets.com/images/modules/logos_page/Octocat.png
+          avatarUrl: 'https://github.githubassets.com/images/modules/logos_page/Octocat.png'
           description: The build was successful.
           footer: 'Severity: Info'
           webhookUrl: ${{ secrets.DISCORD_WEBHOOK }}
