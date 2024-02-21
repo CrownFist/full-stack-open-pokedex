@@ -9,8 +9,8 @@ on:
     types: [opened, synchronize]
 
 jobs:
-  simple_ci_pipeline:
-    name: Simple CI
+  build:
+    name: Build
     runs-on: ubuntu-20.04
     steps:
       - uses: actions/checkout@v4
@@ -31,8 +31,20 @@ jobs:
           command: npm run test:e2e
           start: npm run start-prod
           wait-on: http://localhost:5000
+      - name: Discord success notification
+        uses: rjstone/discord-webhook-notify@v1
+        if: success()
+        with:
+          severity: info
+          username: Windows95Man
+          color: '#77fc03'
+          avatarUrl: https://static.vecteezy.com/system/resources/previews/021/952/576/original/free-spicy-hot-dog-hot-dog-transparent-background-free-png.png
+          description: The build was successfull.
+          footer: 'Severity: Info'
+          webhookUrl: ${{ secrets.DISCORD_WEBHOOK }}
+
   deploy:
-    needs: [simple_ci_pipeline]
+    needs: [build]
     name: Fly Deploy
     if: ${{ github.event_name == 'push' && !contains(join(github.event.commits.*.message, ' '), '#skip')}}
     runs-on: ubuntu-latest
@@ -45,7 +57,7 @@ jobs:
           FLY_API_TOKEN: ${{ secrets.FLY_API_TOKEN }}
   tag_release:
     name: Tag release
-    needs: [simple_ci_pipeline]
+    needs: [build]
     if: ${{ github.event_name == 'push' && !contains(join(github.event.commits.*.message, ' '), '#skip') }}
     runs-on: ubuntu-20.04
     permissions:
