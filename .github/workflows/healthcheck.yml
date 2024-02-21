@@ -1,0 +1,24 @@
+name: Scheduled Health Check
+
+on:
+  schedule:
+    - cron: '*/15 * * * *'
+
+jobs:
+  healthcheck:
+    runs-on: ubuntu-20.04
+    steps:
+      - name: Check if fly.io deployed site is available
+        uses: jtalk/url-health-check-action@v4
+        with:
+          url: https://full-stack-open-pokedex-crownfist.fly.dev/
+      - name: Discord success notification
+        uses: rjstone/discord-webhook-notify@v1
+        if: success()
+        with:
+          username: ActionCat
+          avatarUrl: https://octodex.github.com/images/Professortocat_v2.png
+          color: '#77fc03'
+          description: Periodic health check OK, deployed site is available.
+          footer: 'Severity: Info'
+          webhookUrl: ${{ secrets.DISCORD_WEBHOOK }}
