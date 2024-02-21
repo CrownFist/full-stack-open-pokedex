@@ -35,12 +35,21 @@ jobs:
         uses: rjstone/discord-webhook-notify@v1
         if: success()
         with:
-          severity: info
-          username: Windows95Man
+          username: ActionCat
           color: '#77fc03'
-          avatarUrl: https://static.vecteezy.com/system/resources/previews/021/952/576/original/free-spicy-hot-dog-hot-dog-transparent-background-free-png.png
-          description: The build was successfull.
+          avatarUrl: https://github.githubassets.com/images/modules/logos_page/Octocat.png
+          description: The build was successful.
           footer: 'Severity: Info'
+          webhookUrl: ${{ secrets.DISCORD_WEBHOOK }}
+      - name: Discord error notification
+        uses: rjstone/discord-webhook-notify@v1
+        if: failure()
+        with:
+          username: ActionCat
+          color: '#b50b2d'
+          avatarUrl: https://github.githubassets.com/images/modules/logos_page/Octocat.png
+          description: The build failed.
+          footer: 'Severity: Error'
           webhookUrl: ${{ secrets.DISCORD_WEBHOOK }}
 
   deploy:
@@ -55,6 +64,26 @@ jobs:
       - run: flyctl deploy --remote-only
         env:
           FLY_API_TOKEN: ${{ secrets.FLY_API_TOKEN }}
+      - name: Discord success notification
+        uses: rjstone/discord-webhook-notify@v1
+        if: success()
+        with:
+          username: ActionCat
+          color: '#77fc03'
+          avatarUrl: https://github.githubassets.com/images/modules/logos_page/Octocat.png
+          description: The pokedex deployment was successfull.
+          footer: 'Severity: Info'
+          webhookUrl: ${{ secrets.DISCORD_WEBHOOK }}
+      - name: Discord fail notification
+        uses: rjstone/discord-webhook-notify@v1
+        if: failure()
+        with:
+          username: ActionCat
+          color: '#b50b2d'
+          avatarUrl: https://github.githubassets.com/images/modules/logos_page/Octocat.png
+          description: The pokedex deployment was not successful.
+          footer: 'Severity: Info'
+          webhookUrl: ${{ secrets.DISCORD_WEBHOOK }}
   tag_release:
     name: Tag release
     needs: [build]
