@@ -47,7 +47,7 @@ jobs:
         with:
           username: ActionCat
           color: '#b50b2d'
-          avatarUrl: https://github.githubassets.com/images/modules/logos_page/Octocat.png
+          avatarUrl: https://octodex.github.com/images/Professortocat_v2.png
           description: The build failed.
           footer: 'Severity: Error'
           webhookUrl: ${{ secrets.DISCORD_WEBHOOK }}
@@ -70,8 +70,8 @@ jobs:
         with:
           username: ActionCat
           color: '#77fc03'
-          avatarUrl: https://github.githubassets.com/images/modules/logos_page/Octocat.png
-          description: The pokedex deployment was successfull.
+          avatarUrl: https://octodex.github.com/images/Professortocat_v2.png
+          description: The pokedex deployment was successfull. Explore the app at  .
           footer: 'Severity: Info'
           webhookUrl: ${{ secrets.DISCORD_WEBHOOK }}
       - name: Discord fail notification
@@ -80,7 +80,7 @@ jobs:
         with:
           username: ActionCat
           color: '#b50b2d'
-          avatarUrl: https://github.githubassets.com/images/modules/logos_page/Octocat.png
+          avatarUrl: https://octodex.github.com/images/Professortocat_v2.png
           description: The pokedex deployment was not successful.
           footer: 'Severity: Info'
           webhookUrl: ${{ secrets.DISCORD_WEBHOOK }}
